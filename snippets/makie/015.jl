@@ -8,19 +8,19 @@ let
     markers = [:+,:diamond,:star4,:rtriangle,:rect,:circle,:pentagon,:cross,:star5]
 
     function FigGridScatters()
-        fig = Figure(resolution = (1200, 800))
+        fig = Makie.Figure(resolution = (1200, 800))
         c = 1
         for i in 1:2, j in 1:2:5
-            ax = Axis(fig[i, j],aspect = 1,xgridstyle=:dash,ygridstyle=:dash,
+            ax = Makie.Axis(fig[i, j],aspect = 1,xgridstyle=:dash,ygridstyle=:dash,
                                 xtickalign=1, ytickalign=1)
-            pnts = scatter!(x, y.^c, color = color, colormap=cmaps[c],
+            pnts = Makie.scatter!(x, y.^c, color = color, colormap=cmaps[c],
                 markersize = 15, marker = markers[c], strokewidth=0)
-            limits!(ax, -0.1,1.1,-0.1,1.1)
+                Makie.limits!(ax, -0.1,1.1,-0.1,1.1)
             ax.xticks = [0,1]
             ax.yticks = [0,1]
             ax.xticklabelsize = 20
             ax.yticklabelsize = 20
-            cbar = Colorbar(fig, pnts,height = Relative(0.75), tickwidth = 2,
+            cbar = Makie.Colorbar(fig, pnts,height = Makie.Relative(0.75), tickwidth = 2,
                             tickalign=1, width = 14, ticksize=14)
             fig[i, j+1] = cbar
             c+=1

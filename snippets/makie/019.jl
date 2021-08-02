@@ -7,19 +7,19 @@ let
     fargs = angle.(fvals)
     polya(x,y) = Point(real(f(x + 1im*y)), -imag(f(x + 1im*y)))
 
-    fig = Figure(resolution = (960,450))
-    ax1 = Axis(fig, aspect = 1)
-    ax2 = Axis(fig, aspect = 1)
+    fig = Makie.Figure(resolution = (960,450))
+    ax1 = Makie.Axis(fig, aspect = 1)
+    ax2 = Makie.Axis(fig, aspect = 1)
     cmap = :diverging_rainbow_bgymr_45_85_c67_n256
-    streamplot!(ax1, polya, -2..2, -2..2, colormap = (:black,:red),
+    Makie.streamplot!(ax1, polya, -2..2, -2..2, colormap = (:black,:red),
             gridsize= (40,40), arrow_size = 6,linewidth=1)
-    pltobj2 = heatmap!(ax2, x, y, fargs, colorrange = (-π,π), colormap = cmap)
-    streamplot!(ax2, polya, -2..2, -2..2, colormap = (:white,:black),
+    pltobj2 = Makie.heatmap!(ax2, x, y, fargs, colorrange = (-π,π), colormap = cmap)
+    Makie.streamplot!(ax2, polya, -2..2, -2..2, colormap = (:white,:black),
             gridsize= (40,40), arrow_size = 6,linewidth=1)
-    cbar = Colorbar(fig, pltobj2,
+    cbar = Makie.Colorbar(fig, pltobj2,
             ticks = ([-π,-π/2,0,π/2,π],["-π", "-π/2", "0", "π/2", "π"]))
-    limits!(ax1, -2,2,-2,2)
-    limits!(ax2, -2,2,-2,2)
+            Makie.limits!(ax1, -2,2,-2,2)
+            Makie.limits!(ax2, -2,2,-2,2)
     fig[1,1] = ax1
     fig[1,2] = ax2
     fig[1,3] = cbar
