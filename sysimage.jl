@@ -4,7 +4,7 @@ plots_snippets = include("./plots.jl")
 
 all_snippets = reduce(merge, (
     # makie_snippets, 
-    plots_snippets
+    plots_snippets,
 ))
 
 all_pkgs = collect(keys(all_snippets))
