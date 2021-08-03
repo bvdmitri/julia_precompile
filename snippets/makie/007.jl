@@ -25,9 +25,9 @@ let
                 pixel position of light spot: (ix, y0) = ($(ix), $(iy))"
 
   # start actual plot
-    theme = Makie.Theme(fontsize = 12, colormap = :gist_earth, resolution = (750,500))
-    Makie.set_theme!(theme)
-    fig = Makie.Figure()
+    theme = Theme(fontsize = 12, colormap = :gist_earth, resolution = (750,500))
+    set_theme!(theme)
+    fig = Figure()
   # collect attributes
     fsize = fig.scene.attributes.fontsize.val
     attr = (xlabelsize = 6fsize/5, ylabelsize = 6fsize/5, titlesize = 7fsize/5,
@@ -47,17 +47,17 @@ let
             xlabel = "x (μm)", ylabel = "y (μm)",
             aspect = (Δx * size(σ2,1))/(Δy * size(σ2,2)), )
     attrc = (label = "exposure (counts)", ticksize=6fsize/5, tickalign = 1,
-            width = 15, height = Makie.Relative(0.54), ) # tweaked
+            width = 15, height = Relative(0.54), ) # tweaked
   # create axes and add contents
-    ax1 = Makie.Axis(fig; attr1...)
-    ax2 = Makie.Axis(fig; attr2...)
-    ax3 = Makie.Axis(fig; attr3...)
-    hm1 = Makie.heatmap!(ax1, px, py, σ1)
-    hm2 = Makie.heatmap!(ax2, x, y, σ1)
-    hm3 = Makie.heatmap!(ax3, u, v, σ2)
-    axc = Makie.Colorbar(fig, hm1; attrc...)
-    axn = Makie.Label(fig, text = footnote, textsize = 6fsize/5) # footnote
-    axt = Makie.Label(fig, text = supertitle, textsize = 2fsize) # supertitle
+    ax1 = Axis(fig; attr1...)
+    ax2 = Axis(fig; attr2...)
+    ax3 = Axis(fig; attr3...)
+    hm1 = heatmap!(ax1, px, py, σ1)
+    hm2 = heatmap!(ax2, x, y, σ1)
+    hm3 = heatmap!(ax3, u, v, σ2)
+    axc = Colorbar(fig, hm1; attrc...)
+    axn = Label(fig, text = footnote, textsize = 6fsize/5) # footnote
+    axt = Label(fig, text = supertitle, textsize = 2fsize) # supertitle
   # create layout and show figure
     fig[1,1] = ax1
     fig[1,2] = ax2

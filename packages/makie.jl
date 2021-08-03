@@ -31,6 +31,14 @@ end
 
 snipet_package(::CairoMakieSnippet) = "CairoMakie"
 
+## WGLMakie
+
+struct WGLMakieSnippet <: MakieSnippet
+    snippet :: String
+end
+
+snipet_package(::WGLMakieSnippet) = "WGLMakie"
+
 ## 
 
 snippets = [
@@ -54,9 +62,17 @@ snippets = [
     "018",
     "019",
     "020",
+    "021",
+    "022",
+    "023",
+    # "024", #broken
+    "025",
 ]
 
-Dict(
-    :GLMakie    => GLMakieSnippet.(snippets),
-    :CairoMakie => CairoMakieSnippet.(snippets),
-)
+output = Dict()
+
+parse(Bool, ENV["PRECOMPILE_MAKIE_GL"]) ? output[:GLMakie] = GLMakieSnippet.(snippets) : nothing
+parse(Bool, ENV["PRECOMPILE_MAKIE_CAIRO"]) ? output[:CairoMakie] = CairoMakieSnippet.(snippets) : nothing
+parse(Bool, ENV["PRECOMPILE_MAKIE_WGL"]) ? output[:WGLMakie] = WGLMakieSnippet.(snippets) : nothing
+
+output

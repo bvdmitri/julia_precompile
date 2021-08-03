@@ -18,21 +18,21 @@ let
     end
     xticks = string.(xticks)
 
-    fig = Makie.Figure(resolution = (1200, 600), fontsize = 20)
-    ax = Makie.Axis(fig)
-    hmap = Makie.heatmap!(ax, data, colormap = :plasma)
+    fig = Figure(resolution = (1200, 600), fontsize = 20)
+    ax = Axis(fig)
+    hmap = heatmap!(ax, data, colormap = :plasma)
     for i in 1:15, j in 1:5
         if data[i,j] < 0.15
             txtcolor = :white
         else
             txtcolor = :black
         end
-        Makie.text!(ax, "$(round(data[i,j], digits = 2))", position = (i,j),
+        text!(ax, "$(round(data[i,j], digits = 2))", position = (i,j),
             color = txtcolor, align = (:center, :center))
     end
 
-    cbar = Makie.Colorbar(fig, hmap, label = "values", width = 15,
-                ticksize=15, tickalign = 1, height = Makie.Relative(3.55/4))
+    cbar = Colorbar(fig, hmap, label = "values", width = 15,
+                ticksize=15, tickalign = 1, height = Relative(3.55/4))
     ax.xticks = (1:m, xticks)
     ax.yticks = (1:n, yticks)
     ax.xticklabelrotation = π/3

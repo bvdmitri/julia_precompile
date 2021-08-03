@@ -1,26 +1,27 @@
 
-makie_snippets = include("./makie.jl")
-plots_snippets = include("./plots.jl")
+makie_snippets = include("./packages/makie.jl")
+plots_snippets = include("./packages/plots.jl")
 
-all_snippets = reduce(merge, (
+all_snippets = filter(v -> !isempty(last(v)), reduce(merge, (
     makie_snippets, 
     plots_snippets,
-))
+)))
 
 all_pkgs = collect(keys(all_snippets))
 
 precompile_execution_file = "./precompile_execution.jl"
 
-using PackageCompiler
-
-try
-    PackageCompiler.restore_default_sysimage()
-catch error
-    @warn error
+if isempty(all_pkgs)
+    @error "Nothing to precompile"
+    exit()
+else
+    @info "Compiling packages: $all_pkgs"
 end
 
+using PackageCompiler
+
 PackageCompiler.create_sysimage(
-    all_pkgs; 
+    Symbol.(all_pkgs); 
     precompile_execution_file = precompile_execution_file, 
     replace_default = true
 )
