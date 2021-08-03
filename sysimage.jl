@@ -1,11 +1,12 @@
 
+
 makie_snippets = include("./packages/makie.jl")
 plots_snippets = include("./packages/plots.jl")
 
-all_snippets = filter(v -> !isempty(last(v)), reduce(merge, (
-    makie_snippets, 
-    plots_snippets,
-)))
+all_snippets = merge(
+    makie_snippets,
+    plots_snippets
+)
 
 all_pkgs = collect(keys(all_snippets))
 
@@ -22,6 +23,7 @@ using PackageCompiler
 
 PackageCompiler.create_sysimage(
     Symbol.(all_pkgs); 
+    sysimage_path = "/Users/bvdmitri/.julia/sysimages/PrecompiledSysimage2.so",
     precompile_execution_file = precompile_execution_file, 
-    replace_default = true
+    replace_default = false
 )

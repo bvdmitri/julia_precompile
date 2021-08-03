@@ -74,8 +74,16 @@ snippets = [
 
 output = Dict(:Plots => [])
 
-parse(Bool, ENV["PRECOMPILE_PLOTS_GR"]) ? output[:Plots] = vcat(output[:Plots], GRPlotsSnippet.(snippets)) : nothing
-parse(Bool, ENV["PRECOMPILE_PLOTS_PGF"]) ? output[:Plots] = vcat(output[:Plots], PGFPlotsSnippet.(snippets)) : nothing
-parse(Bool, ENV["PRECOMPILE_PLOTS_PYPLOT"]) ? output[:Plots] = vcat(output[:Plots], PyPlotPlotsSnippet.(snippets)) : nothing
+PRECOMPILE_PLOTS_GR = haskey(ENV, "PRECOMPILE_PLOTS_GR") ? parse(Bool, ENV["PRECOMPILE_PLOTS_GR"]) : true
+PRECOMPILE_PLOTS_PGF = haskey(ENV, "PRECOMPILE_PLOTS_PGF") ? parse(Bool, ENV["PRECOMPILE_PLOTS_PGF"]) : true
+PRECOMPILE_PLOTS_PYPLOT = haskey(ENV, "PRECOMPILE_PLOTS_PYPLOT") ? parse(Bool, ENV["PRECOMPILE_PLOTS_PYPLOT"]) : true
 
-output
+PRECOMPILE_PLOTS_GR ? output[:Plots] = vcat(output[:Plots], GRPlotsSnippet.(snippets)) : nothing
+PRECOMPILE_PLOTS_PGF ? output[:Plots] = vcat(output[:Plots], PGFPlotsSnippet.(snippets)) : nothing
+PRECOMPILE_PLOTS_PYPLOT ? output[:Plots] = vcat(output[:Plots], PyPlotPlotsSnippet.(snippets)) : nothing
+
+if !isempty(output[:Plots])
+    (Plots = output[:Plots], )
+else
+    NamedTuple{()}()
+end

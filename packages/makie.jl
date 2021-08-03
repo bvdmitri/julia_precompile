@@ -69,10 +69,14 @@ snippets = [
     "025",
 ]
 
-output = Dict()
+output = NamedTuple{()}(())
 
-parse(Bool, ENV["PRECOMPILE_MAKIE_GL"]) ? output[:GLMakie] = GLMakieSnippet.(snippets) : nothing
-parse(Bool, ENV["PRECOMPILE_MAKIE_CAIRO"]) ? output[:CairoMakie] = CairoMakieSnippet.(snippets) : nothing
-parse(Bool, ENV["PRECOMPILE_MAKIE_WGL"]) ? output[:WGLMakie] = WGLMakieSnippet.(snippets) : nothing
+PRECOMPILE_MAKIE_WGL = haskey(ENV, "PRECOMPILE_MAKIE_WGL") ? parse(Bool, ENV["PRECOMPILE_MAKIE_WGL"]) : true
+PRECOMPILE_MAKIE_GL = haskey(ENV, "PRECOMPILE_MAKIE_GL") ? parse(Bool, ENV["PRECOMPILE_MAKIE_GL"]) : true
+PRECOMPILE_MAKIE_CAIRO = haskey(ENV, "PRECOMPILE_MAKIE_CAIRO") ? parse(Bool, ENV["PRECOMPILE_MAKIE_CAIRO"]) : true
+
+PRECOMPILE_MAKIE_WGL ? output = (output..., WGLMakie = WGLMakieSnippet.(snippets)) : nothing
+PRECOMPILE_MAKIE_GL ? output = (output..., GLMakie = GLMakieSnippet.(snippets)) : nothing
+PRECOMPILE_MAKIE_CAIRO ? output = (output..., CairoMakie = CairoMakieSnippet.(snippets)) : nothing
 
 output
