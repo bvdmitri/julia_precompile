@@ -23,7 +23,7 @@ using PackageCompiler
 
 PackageCompiler.create_sysimage(
     Symbol.(all_pkgs); 
-    sysimage_path = "/Users/bvdmitri/.julia/sysimages/PrecompiledSysimage2.so",
+    sysimage_path = "/Users/bvdmitri/.julia/sysimages/PrecompiledSysimage.so",
     precompile_execution_file = precompile_execution_file, 
     replace_default = false
 )
