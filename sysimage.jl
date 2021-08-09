@@ -21,9 +21,16 @@ end
 
 using PackageCompiler
 
+folder_path   = string(first(DEPOT_PATH), "/sysimages")
+sysimage_path = string(folder_path, "/PrecompiledSysimage.so")
+
+mkpath(folder_path)
+
+@info "Creating custom system image: $sysimage_path"
+
 PackageCompiler.create_sysimage(
     Symbol.(all_pkgs); 
-    sysimage_path = "/Users/bvdmitri/.julia/sysimages/PrecompiledSysimage.so",
+    sysimage_path = sysimage_path,
     precompile_execution_file = precompile_execution_file, 
     replace_default = false
 )
